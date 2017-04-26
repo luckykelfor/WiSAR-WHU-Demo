@@ -19,12 +19,20 @@ import android.widget.ToggleButton;
 import dji.common.camera.SettingsDefinitions;
 import dji.common.camera.SystemState;
 import dji.common.error.DJIError;
+import dji.common.flightcontroller.FlightControllerState;
 import dji.common.product.Model;
 import dji.common.util.CommonCallbacks;
 import dji.sdk.base.BaseProduct;
 import dji.sdk.camera.Camera;
 import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
+
+
+import dji.sdk.flightcontroller.FlightController;
+import dji.sdk.flightcontroller.FlightController.OnboardSDKDeviceDataCallback;
+import dji.sdk.products.Aircraft;
+import dji.sdk.sdkmanager.DJISDKManager;
+import dji.thirdparty.okio.ByteString;
 
 public class MainActivity extends Activity implements SurfaceTextureListener,OnClickListener{
 
@@ -36,11 +44,19 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 
     protected TextureView mVideoSurface = null;
     private Button mCaptureBtn, mShootPhotoModeBtn, mRecordVideoModeBtn;
+    private Button mInitBtn, mStartMissionBtn, mAbortMissionBtn, mReturnBtn;
     private ToggleButton mRecordBtn;
     private TextView recordingTime;
 
     private Handler handler;
 
+
+     /*以下为WiSAR任务变量*/
+     private FlightController mFlightController = null;
+     Aircraft mAircraft  = null;
+
+
+   // private DJIFlightController_setReceiveExternalDeviceDataCallback;FlightControllerReceivedDataFromExternalDeviceCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,6 +66,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         handler = new Handler();
 
         initUI();
+
+
+       mAircraft =  (Aircraft) DJISDKManager.getInstance().getProduct();
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataCallBack = new VideoFeeder.VideoDataCallback() {
@@ -103,8 +122,25 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         }
 
     }
+//    private CommonCallbacks.CompletionCallback djiCompletionCallback = new CommonCallbacks.CompletionCallback()
+//    {
+//
+//        @Override
+//        public void onResult(DJIError djiError) {
+//            if (djiError != null) {
+//                showToast(djiError.getDescription());
+//            }
+//        }
+//    };
 
-    protected void onProductChange() {
+     private OnboardSDKDeviceDataCallback recvCallback = new OnboardSDKDeviceDataCallback() {
+         @Override
+         public void onReceive(byte[] bytes) {
+             //TODO: 添加数据透传接收;
+         }
+     };
+
+     protected void onProductChange() {
         initPreviewer();
     }
 
@@ -154,7 +190,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         mRecordBtn = (ToggleButton) findViewById(R.id.btn_record);
         mShootPhotoModeBtn = (Button) findViewById(R.id.btn_shoot_photo_mode);
         mRecordVideoModeBtn = (Button) findViewById(R.id.btn_record_video_mode);
-
+        /*添加WiSAR任务按键*/
+        mStartMissionBtn = (Button)findViewById(R.id.btn_startMission);
+        mAbortMissionBtn = (Button)findViewById(R.id.btn_abortMission);
+        mReturnBtn = (Button)findViewById(R.id.btn_return);
+        mInitBtn = (Button)findViewById(R.id.btn_init);
         if (null != mVideoSurface) {
             mVideoSurface.setSurfaceTextureListener(this);
         }
@@ -164,11 +204,14 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         mShootPhotoModeBtn.setOnClickListener(this);
         mRecordVideoModeBtn.setOnClickListener(this);
 
+
+
         recordingTime.setVisibility(View.INVISIBLE);
 
         mRecordBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //TODO:更改为数据透传发送指令录像
                 if (isChecked) {
                     startRecord();
                 } else {
@@ -257,8 +300,107 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
                 switchCameraMode(SettingsDefinitions.CameraMode.RECORD_VIDEO);
                 break;
             }
+            case R.id.btn_init:{
+                //TODO: 完善初始化
+                try {
+                    mFlightController = mAircraft.getFlightController();//.getAircraftInstance().getFlightController();
+                    mFlightController.setOnboardSDKDeviceDataCallback(recvCallback);
+                    showToast("获取控制权成功");
+                } catch (NullPointerException e) {
+                    showToast("获取控制权失败");
+                }
+                break;
+
+            }
+            case R.id.btn_startMission:{
+                //TODO:完善开始任务命令
+                startMission();
+                break;
+            }
+            case R.id.btn_abortMission:{
+                //TODO:添加中止任务
+                break;
+
+            }
+            case R.id.btn_return:{
+                //TODO:添加返航
+                break;
+            }
+            case R.id.btn_land:{
+                //TODO:完善直接降落
+                land();
+                break;
+            }
             default:
                 break;
+        }
+    }
+
+    private void land() {
+            if (mFlightController != null) {
+                FlightControllerState currentState = mFlightController.getState();
+                if (currentState.isFlying()) {
+                    mFlightController.startLanding(new CommonCallbacks.CompletionCallback(){
+
+                        @Override
+                        public void onResult(DJIError djiError)
+                        {
+                            if(djiError == null) {
+                                showToast("开始降落");
+                            }else {
+                                showToast(djiError.getDescription());
+                            }
+                        }
+                    });
+                } else {
+                    showToast("未起飞");
+                }
+            } else {
+                showToast("未获取控制权");
+            }
+    }
+
+    private void startMission() {
+        if (mFlightController != null) {
+            mFlightController.turnOnMotors(new CommonCallbacks.CompletionCallback(){
+
+                @Override
+                public void onResult(DJIError djiError)
+                {
+                    if(djiError == null) {
+                        showToast("准备起飞");
+                    }else {
+                        showToast(djiError.getDescription());
+                    }
+                }
+            });
+            try {
+                Thread.currentThread();//延时等待电机转稳定
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                showToast("sleep failed...");
+            }
+            if (mFlightController.isOnboardSDKDeviceAvailable()) {
+                //TODO: 添加发送的指令
+                String cmd = "起飞";
+                mFlightController.sendDataToOnboardSDKDevice(cmd.getBytes(), new CommonCallbacks.CompletionCallback(){
+
+                    @Override
+                    public void onResult(DJIError djiError)
+                    {
+                        if(djiError == null) {
+                            showToast("发送至Onboard SDK成功");
+                        }else {
+                            showToast(djiError.getDescription());
+                        }
+                    }
+                });
+                showToast("开始任务");
+            } else {
+                showToast("不支持 Onboardd SDK");
+            }
+        } else {
+            showToast("未获取控制权");
         }
     }
 

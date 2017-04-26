@@ -39,7 +39,7 @@ android:orientation="vertical">
     <Button
         android:id="@+id/btn_capture"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.67"
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:text="Capture"
@@ -52,7 +52,7 @@ android:orientation="vertical">
         android:text="Start Record"
         android:textOff="Start Record"
         android:textOn="Stop Record"
-        android:layout_weight="1"
+        android:layout_weight="0.71"
         android:layout_gravity="center_vertical"
         android:textSize="12dp"
         android:checked="false" />
@@ -60,7 +60,7 @@ android:orientation="vertical">
     <Button
         android:id="@+id/btn_shoot_photo_mode"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.60"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Shoot Photo Mode"
@@ -71,7 +71,7 @@ android:orientation="vertical">
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Record Video Mode"
-        android:layout_weight="1"
+        android:layout_weight="0.58"
         android:layout_gravity="center_vertical" />
 
 </LinearLayout>
@@ -87,5 +87,58 @@ android:orientation="vertical">
     android:textColor="#ffffff"
     android:layout_alignTop="@+id/video_previewer_surface"
     android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btn_init"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginStart="17dp"
+        android:text="Button"
+        tools:text="初始化" />
+
+    <Button
+        android:id="@+id/btn_startMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_init"
+        android:layout_alignBottom="@+id/btn_init"
+        android:layout_marginEnd="22dp"
+        android:layout_toStartOf="@+id/timer"
+        android:text="Button"
+        tools:text="开始任务" />
+
+    <Button
+        android:id="@+id/btn_abortMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_startMission"
+        android:layout_alignBottom="@+id/btn_startMission"
+        android:layout_alignStart="@+id/timer"
+        android:layout_marginStart="25dp"
+        android:text="Button"
+        tools:text="中止任务" />
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_abortMission"
+        android:layout_alignBottom="@+id/btn_abortMission"
+        android:layout_toEndOf="@+id/timer"
+        android:text="Button"
+        tools:text="一键返航" />
+
+    <Button
+        android:id="@+id/btn_land"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_return"
+        android:layout_marginStart="52dp"
+        android:layout_toEndOf="@+id/btn_return"
+        android:text="Button"
+        tools:text="降落" />
 
 </RelativeLayout>

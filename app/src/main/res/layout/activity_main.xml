@@ -22,6 +22,12 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical">
 
+    <EditText
+        android:id="@+id/server_ip"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:hint="I" />
 <TextureView
     android:id="@+id/video_previewer_surface"
     android:layout_width="match_parent"
@@ -88,57 +94,71 @@ android:orientation="vertical">
     android:layout_alignTop="@+id/video_previewer_surface"
     android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/btn_init"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:orientation="horizontal"
         android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="17dp"
-        android:layout_marginStart="17dp"
-        android:text="Button"
-        tools:text="初始化" />
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:id="@+id/btn_startMission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn_init"
-        android:layout_alignBottom="@+id/btn_init"
-        android:layout_marginEnd="22dp"
-        android:layout_toStartOf="@+id/timer"
-        android:text="Button"
-        tools:text="开始任务" />
+        <Button
+            android:id="@+id/btn_init"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_weight="0.20"
+            android:text="Button"
+            tools:text="初始化" />
 
-    <Button
-        android:id="@+id/btn_abortMission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn_startMission"
-        android:layout_alignBottom="@+id/btn_startMission"
-        android:layout_alignStart="@+id/timer"
-        android:layout_marginStart="25dp"
-        android:text="Button"
-        tools:text="中止任务" />
+        <Button
+            android:id="@+id/btn_startMission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_init"
+            android:layout_alignBottom="@+id/btn_init"
 
-    <Button
-        android:id="@+id/btn_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn_abortMission"
-        android:layout_alignBottom="@+id/btn_abortMission"
-        android:layout_toEndOf="@+id/timer"
-        android:text="Button"
-        tools:text="一键返航" />
+            android:layout_toStartOf="@+id/timer"
+            android:text="Button"
+            tools:text="开始任务"
+            android:layout_weight="0.03" />
 
-    <Button
-        android:id="@+id/btn_land"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_return"
-        android:layout_marginStart="52dp"
-        android:layout_toEndOf="@+id/btn_return"
-        android:text="Button"
-        tools:text="降落" />
+        <Button
+            android:id="@+id/btn_abortMission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_startMission"
+            android:layout_alignBottom="@+id/btn_startMission"
+            android:layout_alignStart="@+id/timer"
+
+            android:layout_weight="0.07"
+            android:text="Button"
+            tools:text="中止任务" />
+
+        <Button
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_abortMission"
+            android:layout_alignBottom="@+id/btn_abortMission"
+            android:layout_toEndOf="@+id/timer"
+            android:layout_weight="0.10"
+            android:text="Button"
+            tools:text="一键返航" />
+
+        <Button
+            android:id="@+id/btn_land"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btn_return"
+
+            android:layout_toEndOf="@+id/btn_return"
+            android:layout_weight="0.11"
+            android:text="Button"
+            tools:text="降落" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -2,9 +2,11 @@ package com.whu.kelfor.wisar_whu_android;
 
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -12,9 +14,16 @@ import android.view.View.OnClickListener;
 import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 import dji.common.camera.SettingsDefinitions;
 import dji.common.camera.SystemState;
@@ -44,7 +53,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 
     protected TextureView mVideoSurface = null;
     private Button mCaptureBtn, mShootPhotoModeBtn, mRecordVideoModeBtn;
-    private Button mInitBtn, mStartMissionBtn, mAbortMissionBtn, mReturnBtn;
+
     private ToggleButton mRecordBtn;
     private TextView recordingTime;
 
@@ -53,7 +62,13 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 
      /*以下为WiSAR任务变量*/
      private FlightController mFlightController = null;
-     Aircraft mAircraft  = null;
+     private Aircraft mAircraft  = null;
+    private Socket socket = null;
+    private PrintWriter out = null;
+    private BufferedReader br= null;
+    private Button mInitBtn, mStartMissionBtn, mAbortMissionBtn, mReturnBtn,mLanding;
+
+    private EditText server = null;
 
 
    // private DJIFlightController_setReceiveExternalDeviceDataCallback;FlightControllerReceivedDataFromExternalDeviceCallback
@@ -63,13 +78,39 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        handler = new Handler();
+        handler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                switch (msg.what) {
+                    case 0:
+//                        historyAdapter.notifyDataSetChanged();
+//                        Bitmap tag = videoSurface.getBitmap();
+//                        preImageView.setImageBitmap(tag);
+//                        detectedImagesList.add(tag);
+                        break;
+                    case 1:
+//                        int position = (int) msg.obj;
+//                        historyAdapter.setSelectItem(position);
+//                        historyAdapter.notifyDataSetChanged();
+//                        preImageView.setImageBitmap(detectedImagesList.get(position));
+                        break;
+                    case 0x88:
+                        //TODO: 添加处理Qt 服务器端回传的数据
+                        String str = msg.obj.toString();
+                        showToast(str);
+                        break;
+                }
+            }
+
+
+        };
 
         initUI();
 
 
-       mAircraft =  (Aircraft) DJISDKManager.getInstance().getProduct();
-
+        mAircraft =  (Aircraft) DJISDKManager.getInstance().getProduct();
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataCallBack = new VideoFeeder.VideoDataCallback() {
 
@@ -190,11 +231,16 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         mRecordBtn = (ToggleButton) findViewById(R.id.btn_record);
         mShootPhotoModeBtn = (Button) findViewById(R.id.btn_shoot_photo_mode);
         mRecordVideoModeBtn = (Button) findViewById(R.id.btn_record_video_mode);
+
         /*添加WiSAR任务按键*/
         mStartMissionBtn = (Button)findViewById(R.id.btn_startMission);
         mAbortMissionBtn = (Button)findViewById(R.id.btn_abortMission);
         mReturnBtn = (Button)findViewById(R.id.btn_return);
         mInitBtn = (Button)findViewById(R.id.btn_init);
+        mLanding = (Button)findViewById(R.id.btn_land) ;
+        server = (EditText)findViewById(R.id.server_ip);
+
+
         if (null != mVideoSurface) {
             mVideoSurface.setSurfaceTextureListener(this);
         }
@@ -203,6 +249,14 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         mRecordBtn.setOnClickListener(this);
         mShootPhotoModeBtn.setOnClickListener(this);
         mRecordVideoModeBtn.setOnClickListener(this);
+
+
+        mInitBtn.setOnClickListener(this);
+        mStartMissionBtn.setOnClickListener(this);
+        mAbortMissionBtn.setOnClickListener(this);
+        mReturnBtn.setOnClickListener(this);
+        mLanding.setOnClickListener(this);
+
 
 
 
@@ -302,13 +356,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
             }
             case R.id.btn_init:{
                 //TODO: 完善初始化
-                try {
-                    mFlightController = mAircraft.getFlightController();//.getAircraftInstance().getFlightController();
-                    mFlightController.setOnboardSDKDeviceDataCallback(recvCallback);
-                    showToast("获取控制权成功");
-                } catch (NullPointerException e) {
-                    showToast("获取控制权失败");
-                }
+                initController();
+
                 break;
 
             }
@@ -334,6 +383,62 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
             default:
                 break;
         }
+    }
+
+
+    private Thread tcpThread = new Thread()
+    {
+        @Override
+        public void run()
+        {
+//TODO:处理来自Qt服务器端的数据
+
+            while (socket.isConnected()) {
+                String str = null;
+                try {
+                    str = br.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(str!=null)
+                {
+                    Message msg = new Message();
+                    msg.obj  = str;
+                    msg.what = 0x88;
+                    handler.sendMessage(msg);
+
+                }
+            }
+        }
+    };
+
+    private void initController() {
+
+        try {
+            mFlightController = mAircraft.getFlightController();//.getAircraftInstance().getFlightController();
+            mFlightController.setOnboardSDKDeviceDataCallback(recvCallback);
+            showToast("获取控制权成功");
+        } catch (NullPointerException e) {
+            showToast("获取控制权失败");
+        }
+
+        /*建立TCP连接*/
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String ip = server.getText().toString().trim();
+
+                    socket = new Socket(ip,9527);
+                    out = new PrintWriter( socket.getOutputStream());
+                    //将Socket对应的输入流包装成BufferedReader
+                    br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    tcpThread.start();
+
+                } catch (Exception e) {
+                }
+            }
+        }).start();
     }
 
     private void land() {

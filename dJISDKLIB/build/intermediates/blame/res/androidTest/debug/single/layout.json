@@ -6,5 +6,13 @@
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\dialog_login.xml",
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\layout\\dialog_login.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\log_dialog_view.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\layout\\log_dialog_view.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\dialog_login.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\layout\\dialog_login.xml"
     }
 ]

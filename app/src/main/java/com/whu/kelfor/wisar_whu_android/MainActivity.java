@@ -12,9 +12,16 @@ import android.view.View.OnClickListener;
 import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 import dji.common.camera.SettingsDefinitions;
 import dji.common.camera.SystemState;
@@ -34,10 +41,46 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
 
-    protected TextureView mVideoSurface = null;
-    private Button mCaptureBtn, mShootPhotoModeBtn, mRecordVideoModeBtn;
-    private ToggleButton mRecordBtn;
-    private TextView recordingTime;
+
+
+    //Add for WiSAR Demo
+    private double scale;
+    private final int DELAY_TIME = 200;
+    private final String START = "q";
+    private final String END = "d";
+    private final String STARTRECORD = "r";
+    private final String STOPRECORD = "t";
+    private final String ABORT= "a";
+    private final String TEAM_NAME = "WiSAR-WHU";
+
+    private PrintWriter out_coord;
+    private PrintWriter out_cmd;
+    private BufferedReader br;
+    private Socket socket_coordTrans=null;
+    private Socket socket_cmd = null;
+
+
+    /* widget */
+    private EditText server;
+    private ListView listView;
+    private DrawView drawView;
+    private TextView textView;
+    private TextView velInfo;
+    private TextView heightText;
+    private TextView batteryText;
+    private ImageView preImageView;
+    private TextureView videoSurface;
+
+    private  TextView targetGPS;
+    private EditText targetGPS_long;
+    private EditText targetGPS_latt;
+
+
+
+   protected TextureView mVideoSurface = null;
+//    private Button mCaptureBtn, mShootPhotoModeBtn, mRecordVideoModeBtn;
+//    private ToggleButton mRecordBtn;
+//    private TextView recordingTime;
 
     private Handler handler;
 
@@ -61,49 +104,50 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
                 }
             }
         };
-
-        Camera camera = WiSARApplication.getCameraInstance();
-
-        if (camera != null) {
-
-            camera.setSystemStateCallback(new SystemState.Callback() {
-                @Override
-                public void onUpdate(SystemState cameraSystemState) {
-                    if (null != cameraSystemState) {
-
-                        int recordTime = cameraSystemState.getCurrentVideoRecordingTimeInSeconds();
-                        int minutes = (recordTime % 3600) / 60;
-                        int seconds = recordTime % 60;
-
-                        final String timeString = String.format("%02d:%02d", minutes, seconds);
-                        final boolean isVideoRecording = cameraSystemState.isRecording();
-
-                        MainActivity.this.runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                recordingTime.setText(timeString);
-
-                                /*
-                                 * Update recordingTime TextView visibility and mRecordBtn's check state
-                                 */
-                                if (isVideoRecording){
-                                    recordingTime.setVisibility(View.VISIBLE);
-                                }else
-                                {
-                                    recordingTime.setVisibility(View.INVISIBLE);
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-
-        }
+//
+//        Camera camera = WiSARApplication.getCameraInstance();
+//
+//        if (camera != null) {
+//
+//            camera.setSystemStateCallback(new SystemState.Callback() {
+//                @Override
+//                public void onUpdate(SystemState cameraSystemState) {
+//                    if (null != cameraSystemState) {
+//
+//                        int recordTime = cameraSystemState.getCurrentVideoRecordingTimeInSeconds();
+//                        int minutes = (recordTime % 3600) / 60;
+//                        int seconds = recordTime % 60;
+//
+//                        final String timeString = String.format("%02d:%02d", minutes, seconds);
+//                        final boolean isVideoRecording = cameraSystemState.isRecording();
+//
+//                        MainActivity.this.runOnUiThread(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//
+//                                recordingTime.setText(timeString);
+//
+//                                /*
+//                                 * Update recordingTime TextView visibility and mRecordBtn's check state
+//                                 */
+//                                if (isVideoRecording){
+//                                    recordingTime.setVisibility(View.VISIBLE);
+//                                }else
+//                                {
+//                                    recordingTime.setVisibility(View.INVISIBLE);
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//
+//        }
 
     }
-
+//TODO: 添加Socket通信
+    //TODO:添加各项任务
     protected void onProductChange() {
         initPreviewer();
     }
@@ -148,34 +192,34 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
     private void initUI() {
         // init mVideoSurface
         mVideoSurface = (TextureView)findViewById(R.id.video_previewer_surface);
-
-        recordingTime = (TextView) findViewById(R.id.timer);
-        mCaptureBtn = (Button) findViewById(R.id.btn_capture);
-        mRecordBtn = (ToggleButton) findViewById(R.id.btn_record);
-        mShootPhotoModeBtn = (Button) findViewById(R.id.btn_shoot_photo_mode);
-        mRecordVideoModeBtn = (Button) findViewById(R.id.btn_record_video_mode);
+//
+//        recordingTime = (TextView) findViewById(R.id.timer);
+//        mCaptureBtn = (Button) findViewById(R.id.btn_capture);
+//        mRecordBtn = (ToggleButton) findViewById(R.id.btn_record);
+//        mShootPhotoModeBtn = (Button) findViewById(R.id.btn_shoot_photo_mode);
+//        mRecordVideoModeBtn = (Button) findViewById(R.id.btn_record_video_mode);
 
         if (null != mVideoSurface) {
             mVideoSurface.setSurfaceTextureListener(this);
         }
-
-        mCaptureBtn.setOnClickListener(this);
-        mRecordBtn.setOnClickListener(this);
-        mShootPhotoModeBtn.setOnClickListener(this);
-        mRecordVideoModeBtn.setOnClickListener(this);
-
-        recordingTime.setVisibility(View.INVISIBLE);
-
-        mRecordBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startRecord();
-                } else {
-                    stopRecord();
-                }
-            }
-        });
+//
+//        mCaptureBtn.setOnClickListener(this);
+//        mRecordBtn.setOnClickListener(this);
+//        mShootPhotoModeBtn.setOnClickListener(this);
+//        mRecordVideoModeBtn.setOnClickListener(this);
+//
+//        recordingTime.setVisibility(View.INVISIBLE);
+//
+//        mRecordBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    startRecord();
+//                } else {
+//                    stopRecord();
+//                }
+//            }
+//        });
     }
 
     private void initPreviewer() {
@@ -242,24 +286,25 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View v) {//TODO: 消息响应函数
+/*
         switch (v.getId()) {
             case R.id.btn_capture:{
-                captureAction();
+//                captureAction();//TODO:更改
                 break;
             }
             case R.id.btn_shoot_photo_mode:{
-                switchCameraMode(SettingsDefinitions.CameraMode.SHOOT_PHOTO);
+//                switchCameraMode(SettingsDefinitions.CameraMode.SHOOT_PHOTO);
                 break;
             }
             case R.id.btn_record_video_mode:{
-                switchCameraMode(SettingsDefinitions.CameraMode.RECORD_VIDEO);
+//                switchCameraMode(SettingsDefinitions.CameraMode.RECORD_VIDEO);
                 break;
             }
             default:
                 break;
         }
+        */
     }
 
     private void switchCameraMode(SettingsDefinitions.CameraMode cameraMode){
@@ -281,74 +326,74 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
     }
 
     // Method for taking photo
-    private void captureAction(){
+//    private void captureAction(){
+//
+//        final Camera camera = WiSARApplication.getCameraInstance();
+//        if (camera != null) {
+//
+//            SettingsDefinitions.ShootPhotoMode photoMode = SettingsDefinitions.ShootPhotoMode.SINGLE; // Set the camera capture mode as Single mode
+//            camera.setShootPhotoMode(photoMode, new CommonCallbacks.CompletionCallback(){
+//                @Override
+//                public void onResult(DJIError djiError) {
+//                    if (null == djiError) {
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                camera.startShootPhoto(new CommonCallbacks.CompletionCallback() {
+//                                    @Override
+//                                    public void onResult(DJIError djiError) {
+//                                        if (djiError == null) {
+//                                            showToast("take photo: success");
+//                                        } else {
+//                                            showToast(djiError.getDescription());
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }, 2000);
+//                    }
+//                }
+//            });
+//        }
+//    }
 
-        final Camera camera = WiSARApplication.getCameraInstance();
-        if (camera != null) {
-
-            SettingsDefinitions.ShootPhotoMode photoMode = SettingsDefinitions.ShootPhotoMode.SINGLE; // Set the camera capture mode as Single mode
-            camera.setShootPhotoMode(photoMode, new CommonCallbacks.CompletionCallback(){
-                @Override
-                public void onResult(DJIError djiError) {
-                    if (null == djiError) {
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                camera.startShootPhoto(new CommonCallbacks.CompletionCallback() {
-                                    @Override
-                                    public void onResult(DJIError djiError) {
-                                        if (djiError == null) {
-                                            showToast("take photo: success");
-                                        } else {
-                                            showToast(djiError.getDescription());
-                                        }
-                                    }
-                                });
-                            }
-                        }, 2000);
-                    }
-                }
-            });
-        }
-    }
-
-    // Method for starting recording
-    private void startRecord(){
-
-        final Camera camera = WiSARApplication.getCameraInstance();
-        if (camera != null) {
-            camera.startRecordVideo(new CommonCallbacks.CompletionCallback(){
-                @Override
-                public void onResult(DJIError djiError)
-                {
-                    if (djiError == null) {
-                        showToast("Record video: success");
-                    }else {
-                        showToast(djiError.getDescription());
-                    }
-                }
-            }); // Execute the startRecordVideo API
-        }
-    }
-
-    // Method for stopping recording
-    private void stopRecord(){
-
-        Camera camera = WiSARApplication.getCameraInstance();
-        if (camera != null) {
-            camera.stopRecordVideo(new CommonCallbacks.CompletionCallback(){
-
-                @Override
-                public void onResult(DJIError djiError)
-                {
-                    if(djiError == null) {
-                        showToast("Stop recording: success");
-                    }else {
-                        showToast(djiError.getDescription());
-                    }
-                }
-            }); // Execute the stopRecordVideo API
-        }
-
-    }
+//    // Method for starting recording
+//    private void startRecord(){
+//
+//        final Camera camera = WiSARApplication.getCameraInstance();
+//        if (camera != null) {
+//            camera.startRecordVideo(new CommonCallbacks.CompletionCallback(){
+//                @Override
+//                public void onResult(DJIError djiError)
+//                {
+//                    if (djiError == null) {
+//                        showToast("Record video: success");
+//                    }else {
+//                        showToast(djiError.getDescription());
+//                    }
+//                }
+//            }); // Execute the startRecordVideo API
+//        }
+//    }
+//
+//    // Method for stopping recording
+//    private void stopRecord(){
+//
+//        Camera camera = WiSARApplication.getCameraInstance();
+//        if (camera != null) {
+//            camera.stopRecordVideo(new CommonCallbacks.CompletionCallback(){
+//
+//                @Override
+//                public void onResult(DJIError djiError)
+//                {
+//                    if(djiError == null) {
+//                        showToast("Stop recording: success");
+//                    }else {
+//                        showToast(djiError.getDescription());
+//                    }
+//                }
+//            }); // Execute the stopRecordVideo API
+//        }
+//
+//    }
 }

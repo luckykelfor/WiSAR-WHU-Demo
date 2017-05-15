@@ -1,15 +1,19 @@
 [
     {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_left_out.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_left_out.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_in.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_in.xml"
+    },
+    {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_exit_back.xml",
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_exit_back.xml"
     },
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_other.xml",
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_other.xml"
-    },
-    {
-        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_exit.xml",
-        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_exit.xml"
     },
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hold.xml",
@@ -20,16 +24,12 @@
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hyperspace_out.xml"
     },
     {
-        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hyperspace_in.xml",
-        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hyperspace_in.xml"
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_other.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_other.xml"
     },
     {
-        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_in.xml",
-        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_in.xml"
-    },
-    {
-        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_out.xml",
-        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_out.xml"
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_left_in.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_left_in.xml"
     },
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_left_in.xml",
@@ -40,8 +40,8 @@
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_right_in.xml"
     },
     {
-        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_enter.xml",
-        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_enter.xml"
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_out.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_out.xml"
     },
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_left_out.xml",
@@ -52,7 +52,63 @@
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_enter_back.xml"
     },
     {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hyperspace_in.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hyperspace_in.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_exit_back.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_exit_back.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_right_in.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_right_in.xml"
+    },
+    {
+        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_exit.xml",
+        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_exit.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_enter.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_enter.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hyperspace_out.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hyperspace_out.xml"
+    },
+    {
+        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hyperspace_in.xml",
+        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hyperspace_in.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_exit.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_exit.xml"
+    },
+    {
+        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_in.xml",
+        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_in.xml"
+    },
+    {
+        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_up_out.xml",
+        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_up_out.xml"
+    },
+    {
+        "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_enter.xml",
+        "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_enter.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_zoom_enter_back.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_zoom_enter_back.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_right_out.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_right_out.xml"
+    },
+    {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_push_right_out.xml",
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_push_right_out.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\core_hold.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\anim\\core_hold.xml"
     }
 ]

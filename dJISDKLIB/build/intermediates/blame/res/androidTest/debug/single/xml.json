@@ -2,5 +2,9 @@
     {
         "merged": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\accessory_filter.xml",
         "source": "D:\\MyWorkspace\\Android_Projects\\WiSAR-WHU-ANDROID\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\xml\\accessory_filter.xml"
+    },
+    {
+        "merged": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\accessory_filter.xml",
+        "source": "D:\\FastWorkspace\\AndroidProjects\\WiSAR-WHU-Demo\\dJISDKLIB\\build\\intermediates\\bundles\\debug\\res\\xml\\accessory_filter.xml"
     }
 ]

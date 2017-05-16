@@ -149,7 +149,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btn_init"
             style="?android:attr/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -161,7 +161,7 @@
             tools:ignore="NestedWeights" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_startMission"
             style="?android:attr/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -172,7 +172,7 @@
             android:textSize="14sp"/>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_land"
             style="?android:attr/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -183,7 +183,7 @@
             android:textSize="14sp"/>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_return"
             style="?android:attr/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -194,7 +194,7 @@
             android:textSize="14sp"/>
 
         <ToggleButton
-            android:id="@+id/mStartRecordToggleBtn"
+            android:id="@+id/btn_record"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

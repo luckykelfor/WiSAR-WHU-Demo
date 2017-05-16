@@ -11,7 +11,8 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <!-- 左边的 layout -->
         <LinearLayout
@@ -20,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical"
-            tools:ignore="NestedWeights">
+            tools:ignore="NestedWeights,UselessParent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,7 +33,6 @@
                     android:id="@+id/liveView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/live_view" />
@@ -77,20 +77,20 @@
                     tools:ignore="RtlHardcoded" />
 
                 <EditText
-                    android:id="@+id/server_ip"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.80"
-                    android:hint="@string/server_ip"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-                <EditText
                     android:id="@+id/targetLat"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.80"
                     android:hint="纬度"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <EditText
+                    android:id="@+id/server_ip"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.80"
+                    android:hint="@string/server_ip"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 

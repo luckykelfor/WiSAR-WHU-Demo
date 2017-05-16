@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IntRange;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.TextureView.SurfaceTextureListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ import java.io.InputStreamReader;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.Socket;
 
 import dji.common.battery.BatteryState;
@@ -82,14 +85,14 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 
     /* widget */
     private EditText server;
-    private ListView listView;
+
     private DrawView drawView;
     private TextView textView;
     private TextView velInfo;
     private TextView heightText;
     private TextView batteryText;
     private ImageView preImageView;
-    private TextureView videoSurface;
+
 
     private  TextView targetGPS;
     private EditText targetGPS_long;
@@ -111,13 +114,43 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 //    private TextView recordingTime;
 
 
-    private Handler handler;
 
 
      /*以下为WiSAR任务变量*/
 
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+//                    historyAdapter.notifyDataSetChanged();
+//                    Bitmap tag = videoSurface.getBitmap();
+//                    preImageView.setImageBitmap(tag);
+//                    detectedImagesList.add(tag);
+                    break;
+                case 1:
+//                    int position = (int) msg.obj;
+//                    historyAdapter.setSelectItem(position);
+//                    historyAdapter.notifyDataSetChanged();
+//                    preImageView.setImageBitmap(detectedImagesList.get(position));
+                    break;
+                case 0x88:
+                    //TODO: 添加处理Qt 服务器端回传的数据
+                    break;
+                case 0x87:
+                    //TODO: 显示目标GPS
+                    String GPS = (String)msg.obj;
 
+                    targetGPS_long.setText(GPS.substring(0,9));
+                    targetGPS_latt.setText(GPS.substring(10));
+                    break;
+                case 0x89:
+                    showToast((String)msg.obj);
+                    break;
+            }
+        }
+    };
 
    // private DJIFlightController_setReceiveExternalDeviceDataCallback;FlightControllerReceivedDataFromExternalDeviceCallback
     @Override
@@ -126,47 +159,20 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        handler = new Handler()
-        {
-            @Override
-            public void handleMessage(Message msg)
-            {
-                switch (msg.what) {
-                    case 0:
-//                        historyAdapter.notifyDataSetChanged();
-//                        Bitmap tag = videoSurface.getBitmap();
-//                        preImageView.setImageBitmap(tag);
-//                        detectedImagesList.add(tag);
-                        break;
-                    case 1:
-//                        int position = (int) msg.obj;
-//                        historyAdapter.setSelectItem(position);
-//                        historyAdapter.notifyDataSetChanged();
-//                        preImageView.setImageBitmap(detectedImagesList.get(position));
-                        break;
-                    case 0x88:
-                        //TODO: 添加处理Qt 服务器端回传的数据
-                        break;
-                    case 0x87:
-                        //TODO: 显示目标GPS
-                        String GPS = (String)msg.obj;
-                        targetGPS_long.setText(GPS.substring(0,9));
-                        targetGPS_latt.setText(GPS.substring(10));
-                        break;
-                    case 0x89:
-                        showToast((String)msg.obj);
-                        break;
-                }
-            }
-
-
-        };
-
         initUI();
 
 
         mAircraft =  (Aircraft) DJISDKManager.getInstance().getProduct();
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        ViewGroup.LayoutParams params = mVideoSurface.getLayoutParams();
+//        params.width = displayMetrics.widthPixels ;
+//        params.height = displayMetrics.heightPixels;
+        scale = (double) params.width / 640;
+        mVideoSurface.setLayoutParams(params);
         // The callback for receiving the raw H264 video data for camera live view
+
         mReceivedVideoDataCallBack = new VideoFeeder.VideoDataCallback() {
 
             @Override
@@ -176,7 +182,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
                 }
             }
         };
-//
+
+        handler.postDelayed(runnable, DELAY_TIME);
 //        Camera camera = WiSARApplication.getCameraInstance();
 //
 //        if (camera != null) {
@@ -229,12 +236,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener,OnC
 //            }
 //        }
 //    };
-private Gimbal.BatteryChargeRemainingCallback batteryCallbck = new Gimbal.BatteryChargeRemainingCallback() {
-    @Override
-    public void onUpdate(@IntRange(from = 0L, to = 100L) int i) {
-        ;
-    }
-};
+ 
 
 
 
@@ -367,6 +369,20 @@ private Gimbal.BatteryChargeRemainingCallback batteryCallbck = new Gimbal.Batter
 //        mShootPhotoModeBtn = (Button) findViewById(R.id.btn_shoot_photo_mode);
 //        mRecordVideoModeBtn = (Button) findViewById(R.id.btn_record_video_mode);
 
+        server = (EditText) findViewById(R.id.server_ip);
+//        listView = (ListView) findViewById(R.id.historyList);
+        drawView = (DrawView) findViewById(R.id.drawView);
+        textView = (TextView) findViewById(R.id.stateView);
+        velInfo = (TextView) findViewById(R.id.velInfo);
+        heightText = (TextView) findViewById(R.id.heightView);
+        batteryText = (TextView) findViewById(R.id.batteryView);
+//        preImageView = (ImageView) findViewById(R.id.pre_tag);
+
+
+        targetGPS = (TextView)findViewById(R.id.targetGPS);
+        targetGPS_long = (EditText)findViewById(R.id.targetLong) ;
+        targetGPS_latt = (EditText)findViewById(R.id.targetLat);
+        server.setText("192.168.191.1");
         /*添加WiSAR任务按键*/
         mStartMissionBtn = (Button)findViewById(R.id.btn_startMission);
 //        mAbortMissionBtn = (Button)findViewById(R.id.btn_abortMission);//TODO: 中止任务添加
@@ -415,6 +431,7 @@ private Gimbal.BatteryChargeRemainingCallback batteryCallbck = new Gimbal.Batter
 
         if (product == null || !product.isConnected()) {
             showToast(getString(R.string.disconnected));
+            textView.setText(getString(R.string.disconnected));
         }
         else
         {
@@ -428,6 +445,7 @@ private Gimbal.BatteryChargeRemainingCallback batteryCallbck = new Gimbal.Batter
                 }
             }
             mBattery = product.getBattery();//TODO: 添加电池电量回调
+            textView.setText(product.getModel() + " " + getString(R.string.connected));
 //            mBattery.setStateCallback((BatteryState.Callback) batteryCallbck);
         }
     }
@@ -539,7 +557,24 @@ private Gimbal.BatteryChargeRemainingCallback batteryCallbck = new Gimbal.Batter
             }
         }
     };
-
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mFlightController != null) {
+                FlightControllerState state = mFlightController.getState();
+                heightText.setText(String.valueOf(state.getAircraftLocation().getAltitude()));
+                double x = state.getVelocityX();
+                double y = state.getVelocityY();
+                double velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+                BigDecimal bigDecimal = new BigDecimal(velocity);
+                velocity = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                velInfo.setText(String.valueOf(velocity));
+            } else {
+                heightText.setText(getString(R.string.not_available));
+            }
+            handler.postDelayed(this, DELAY_TIME);
+        }
+    };
     private void initController() {
 
         try {
